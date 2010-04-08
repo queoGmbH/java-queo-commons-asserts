@@ -16,6 +16,17 @@
 		<developerConnection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</developerConnection>
 		<url>http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</url>
 	</scm>
+	
+	<distributionManagement>
+		<repository>
+			<id>com.queomedia</id>
+			<url>http://skylla:8080/nexus/content/repositories/com.queomedia</url>
+		</repository>
+		<snapshotRepository>
+			<id>com.queomedia-snapshot</id>
+			<url>http://skylla:8080/nexus/content/repositories/com.queomedia-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<developers>
 		<developer>
@@ -24,13 +35,6 @@
 			<email>ralph.engelmann@queo-media.com</email>
 		</developer>
 	</developers>
-
-	<distributionManagement>
-		<snapshotRepository>
-			<id>com.queomedia-snapshot</id>
-			<url>http://skylla:8080/nexus/content/repositories/com.queomedia-snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
