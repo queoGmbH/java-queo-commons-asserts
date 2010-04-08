@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
@@ -13,9 +12,9 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/trunk</connection>
-		<developerConnection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/trunk</developerConnection>
-		<url>http://skylla/queo_commons/java/queo-commons-asserts/trunk</url>
+		<connection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</connection>
+		<developerConnection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</developerConnection>
+		<url>http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</url>
 	</scm>
 
 	<developers>
@@ -97,7 +96,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
-			<scope>test</scope>
 		</dependency>	
 	</dependencies>
 
