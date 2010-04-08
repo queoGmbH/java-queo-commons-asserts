@@ -4,7 +4,7 @@
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
 	<name>queo commons asserts</name>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<description>Common util library with different asserts and checks.</description>
 
 	<issueManagement>
@@ -77,27 +77,28 @@
 	</build>
 	
 	<dependencies>
+	
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-equals</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-exceptions</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-checks</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>[4.0,)</version>
+			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>			
+		</dependency>	
 	</dependencies>
 
 </project>
