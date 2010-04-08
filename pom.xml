@@ -3,7 +3,7 @@
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
 	<name>queo commons asserts</name>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<description>Common util library with different asserts and checks.</description>
 
 	<issueManagement>
