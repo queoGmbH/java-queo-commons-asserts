@@ -3,7 +3,7 @@
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
 	<name>queo commons asserts</name>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<description>Common util library with different asserts and checks.</description>
 
 	<issueManagement>
@@ -12,8 +12,8 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</connection>
-		<developerConnection>scm:svn:http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</developerConnection>
+		<connection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</connection>
+		<developerConnection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</developerConnection>
 		<url>http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</url>
 	</scm>
 
