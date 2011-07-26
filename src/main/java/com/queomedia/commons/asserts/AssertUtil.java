@@ -8,6 +8,8 @@ import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.ComparisonFailure;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 import com.queomedia.commons.checks.Check;
 import com.queomedia.commons.equals.EqualsChecker;
 
@@ -24,8 +26,9 @@ public abstract class AssertUtil {
      * Util classes need no constructor. 
      */
     private AssertUtil() {
+        super();
     }
-    
+
     /**
      * Milliseconds per second.
      */
@@ -42,8 +45,9 @@ public abstract class AssertUtil {
     public static void secPreciceEquals(final String message, final Date expected, final Date found) {
         if (expected.getTime() / MILLISEC_PER_SECOND != found.getTime() / MILLISEC_PER_SECOND) {
             AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collection does not contrain expected item"), expected != null ? expected
-                    .toString() : "null", found != null ? found.toString() : "null");
+                    "[Assertion failed] - collection does not contrain expected item"),
+                    expected != null ? expected.toString() : "null",
+                    found != null ? found.toString() : "null");
         }
     }
 
@@ -223,7 +227,9 @@ public abstract class AssertUtil {
         for (T expectedItem : expected) {
             if (!found.contains(expectedItem)) {
                 AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection + " + found
-                        + " does not contrain " + expectedItem), expected, found);
+                        + " does not contrain " + expectedItem),
+                        expected,
+                        found);
             }
         }
     }
@@ -300,7 +306,9 @@ public abstract class AssertUtil {
             }
             if (!ok) {
                 AssertUtil.failCompare(AssertUtil.format(message, "collections does not contain equal elements "
-                        + "first not found element=" + expectedObject), expected, found);
+                        + "first not found element=" + expectedObject),
+                        expected,
+                        found);
             }
         }
     }
@@ -511,7 +519,7 @@ public abstract class AssertUtil {
             AssertUtil.containsAtLeast(message, expectedObject, found, equalsChecker);
         }
     }
-    
+
     /**
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
@@ -545,7 +553,7 @@ public abstract class AssertUtil {
                     "[Assertion failed] - collection does not contrain expected item"), expectedItem, found);
         }
     }
-    
+
     /**
      * Contains.
      * 
@@ -556,7 +564,6 @@ public abstract class AssertUtil {
     public static <T> void containsAtLeast(final T expectedItem, final Collection<T> found) {
         AssertUtil.containsAtLeast(null, expectedItem, found);
     }
-   
 
     /**
      * Assert that the collection contains the expected items.
@@ -591,7 +598,6 @@ public abstract class AssertUtil {
 
         containsAtLeast(null, expectedItems, found);
     }
-    
 
     /**
      * Assert that the collection contains the expected item.
@@ -636,7 +642,7 @@ public abstract class AssertUtil {
     public static <T> void contains(final String message, final Collection<T> expectedItems, final Collection<T> found) {
         containsAtLeast(message, expectedItems, found);
     }
-    
+
     /**
      * Assert that the collection contains the expected items.
      * The Collection can have other items too.
@@ -749,5 +755,38 @@ public abstract class AssertUtil {
         } else {
             return message + " " + cause;
         }
+    }
+
+    /**
+     * Check if both objects are equals.
+     * To compare them reflection is used instead of the equals method,
+     *
+     * @param <T> the generic type
+     * @param message the message
+     * @param expected the expected
+     * @param actual the actual
+     */
+    public static <T> void assertReflectivEquals(final String message, final T expected, final T actual) {
+        Check.notNullArgument(actual, "actual");
+        Check.notNullArgument(expected, "expected");
+
+        if (!EqualsBuilder.reflectionEquals(expected, actual)) {
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - objects are not reflectiv equals"),
+                    expected != null ? expected.toString() : "null",
+                    actual != null ? actual.toString() : "null");
+
+        }
+    }
+
+    /**
+     * Check if both objects are equals.
+     * To compare them reflection is used instead of the equals method,
+     *
+     * @param <T> the generic type
+     * @param expected the expected
+     * @param actual the actual
+     */
+    public static <T> void assertReflectivEquals(final T expected, final T actual) {
+        assertReflectivEquals(null, expected, actual);
     }
 }
