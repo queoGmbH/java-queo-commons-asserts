@@ -3,7 +3,7 @@
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
 	<name>queo commons asserts</name>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<description>Common util library with different asserts and checks.</description>
 
 	<issueManagement>
@@ -12,11 +12,11 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</connection>
-		<developerConnection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</developerConnection>
-		<url>http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.0.0</url>
+		<connection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.1.0</connection>
+		<developerConnection>scm:svn:svn://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.1.0</developerConnection>
+		<url>http://skylla/queo_commons/java/queo-commons-asserts/tags/queo-commons-asserts-1.1.0</url>
 	</scm>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>com.queomedia</id>
@@ -78,29 +78,34 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-equals</artifactId>
-			<version>1.0.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-exceptions</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.queomedia</groupId>
 			<artifactId>queo-commons-checks</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
-		</dependency>	
+		</dependency>
 	</dependencies>
 
 </project>

@@ -45,4 +45,30 @@ public class AssertUtilTest {
 
     }
 
+    private static class RefletionObject {
+        @SuppressWarnings("unused")
+        private String content;
+
+        public RefletionObject(String content) {
+            this.content = content;
+        }
+
+    }
+
+    /**
+     * Test assert reflectiv equals.
+     */
+    @Test
+    public void testAssertReflectivEquals() {
+        AssertUtil.assertReflectivEquals(null, new RefletionObject("a"), new RefletionObject("a"));
+    }
+    
+    /**
+     * Test assert not reflectiv equals.
+     */
+    @Test(expected = ComparisonFailure.class)
+    public void testAssertReflectivEqualsWithNotEquals() {
+        AssertUtil.assertReflectivEquals(null, new RefletionObject("a"), new RefletionObject("b"));
+    }
+    
 }
