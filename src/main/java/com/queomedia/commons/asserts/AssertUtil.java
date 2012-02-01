@@ -16,14 +16,14 @@ import com.queomedia.commons.equals.EqualsChecker;
 /**
  * This tool class provides several checks.
  * This class is designed for use in test cases.
- * 
+ *
  * All checks throw an {@link AssertionFailedError} or its subclass (@link ComparisonFailure} if the check fails.
- * 
+ *
  */
 public abstract class AssertUtil {
 
     /**
-     * Util classes need no constructor. 
+     * Util classes need no constructor.
      */
     private AssertUtil() {
         super();
@@ -37,7 +37,7 @@ public abstract class AssertUtil {
     /**
      * Assert that both time stamps are second precise equals.
      * Background: {@link java.util.Date} is millisecond precise.
-     * 
+     *
      * @param message additional message for the failure description when the check fails
      * @param expected expected value
      * @param found found value
@@ -54,7 +54,7 @@ public abstract class AssertUtil {
     /**
      * Assert that both time stamps are second precise equals.
      * Background: {@link java.util.Date} is millisecond precice.
-     * 
+     *
      * @param expected expected value
      * @param found found value
      */
@@ -64,7 +64,7 @@ public abstract class AssertUtil {
 
     /**
      * Assert that both objects are not equals.
-     * 
+     *
      * @param o1 the fist object
      * @param o2 the second object
      * @param message additional message for the failure description when the check fails
@@ -89,7 +89,7 @@ public abstract class AssertUtil {
 
     /**
      * Assert that both objects are not equals.
-     * 
+     *
      * @param o1 the fist object
      * @param o2 the second object
      */
@@ -99,7 +99,7 @@ public abstract class AssertUtil {
 
     /**
      * Asserts that two Strings are equal if there whitespace are striped.
-     * 
+     *
      * @param expected the expected
      * @param found the found
      * @param message additional message for the failure description when the check fails - can be null
@@ -119,7 +119,7 @@ public abstract class AssertUtil {
 
     /**
      * Asserts that two Strings are equal if there whitespace are striped.
-     * 
+     *
      * @param expected the expected
      * @param found the found
      */
@@ -129,7 +129,7 @@ public abstract class AssertUtil {
 
     /**
      * Check that the collection is empty.
-     * 
+     *
      * @param collection the collection
      * @param message additional message for the failure description when the check fails
      */
@@ -144,7 +144,7 @@ public abstract class AssertUtil {
 
     /**
      * Checks if is empty.
-     * 
+     *
      * @param collection the collection
      */
     public static void isEmpty(final Collection<?> collection) {
@@ -153,7 +153,7 @@ public abstract class AssertUtil {
 
     /**
      * Checks for the correct size size.
-     * 
+     *
      * @param expectedSize the expected size
      * @param foundCollection the collection
      * @param message additional message for the failure description when the check fails
@@ -170,7 +170,7 @@ public abstract class AssertUtil {
 
     /**
      * Checks for the correct size size.
-     * 
+     *
      * @param size the expected size
      * @param collection the collection
      */
@@ -180,14 +180,14 @@ public abstract class AssertUtil {
 
     /**
      * Checks hat both collections have the same size.
-     * 
+     *
      * @param message additional message for the failure description when the check fails
      * @param expected the expected collection (size)
      * @param found the found collection (size)
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void sameSize(final String message, final Collection<T> expected, final Collection<K> found) {
+    public static <T, K> void sameSize(final String message, final Collection<? extends T> expected, final Collection<? extends K> found) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
 
@@ -200,26 +200,26 @@ public abstract class AssertUtil {
 
     /**
      * Checks hat both collections have the same size.
-     * 
+     *
      * @param expected the expected collection (size)
      * @param found the found collection (size)
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void sameSize(final Collection<T> expected, final Collection<K> found) {
+    public static <T, K> void sameSize(final Collection<? extends T> expected, final Collection<? extends K> found) {
         AssertUtil.sameSize(null, expected, found);
     }
 
     /**
      * Check that the two collections contains exactly equals elements.
      * The order doesn't matter.
-     * 
+     *
      * @param expected one collection
      * @param found the other collection
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsExact(final String message, final Collection<T> expected, final Collection<T> found) {
+    public static <T> void containsExact(final String message, final Collection<? extends T> expected, final Collection<? extends T> found) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
 
@@ -236,24 +236,24 @@ public abstract class AssertUtil {
 
     /**
      * Contains exact.
-     * 
+     *
      * @param expected the expected
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsExact(final Collection<T> expected, final Collection<T> found) {
+    public static <T> void containsExact(final Collection<? extends T> expected, final Collection<? extends T> found) {
         AssertUtil.containsExact(null, expected, found);
     }
 
     /**
      * Check that the collection contains exactly the one element.
-     * 
+     *
      * @param expectedItem the expected item can be {@code null}
      * @param message additional message for the failure description when the check fails
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsExact(final String message, final T expectedItem, final Collection<T> found) {
+    public static <T> void containsExact(final String message, final T expectedItem, final Collection<? extends T> found) {
         /* expectedItem can be null */
         Check.notNullArgument(found, "found");
 
@@ -269,19 +269,19 @@ public abstract class AssertUtil {
 
     /**
      * Contains exact.
-     * 
+     *
      * @param expectedItem the expected item can be {@code null}
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsExact(final T expectedItem, final Collection<T> found) {
+    public static <T> void containsExact(final T expectedItem, final Collection<? extends T> found) {
         AssertUtil.containsExact(null, expectedItem, found);
     }
 
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
      * The order doesn't matter.
-     * 
+     *
      * @param message additional message for the failure description when the check fails
      * @param expected one collection
      * @param found the found
@@ -289,8 +289,8 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsExact(final String message, final Collection<T> expected,
-            final Collection<K> found, final EqualsChecker<T, K> equalsChecker) {
+    public static <T, K> void containsExact(final String message, final Collection<? extends T> expected,
+            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
         Check.notNullArgument(equalsChecker, "equalsChecker");
@@ -316,14 +316,14 @@ public abstract class AssertUtil {
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
      * The order doesn't matter.
-     * 
+     *
      * @param expected one collection
      * @param found the found
      * @param equalsChecker the equals checker
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsExact(final Collection<T> expected, final Collection<K> found,
+    public static <T, K> void containsExact(final Collection<? extends T> expected, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.containsExact(null, expected, found, equalsChecker);
     }
@@ -331,7 +331,7 @@ public abstract class AssertUtil {
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
      * The order doesn't matter.
-     * 
+     *
      * @param expectedObject the expected object
      * @param found the found collection
      * @param equalsChecker the equals checker
@@ -339,7 +339,7 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsExact(final String message, final T expectedObject, final Collection<K> found,
+    public static <T, K> void containsExact(final String message, final T expectedObject, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         Check.notNullArgument(found, "found");
         Check.notNullArgument(equalsChecker, "equalsChecker");
@@ -355,27 +355,27 @@ public abstract class AssertUtil {
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
      * The order doesn't matter.
-     * 
+     *
      * @param expectedObject the expected object
      * @param found the found collection
      * @param equalsChecker the equals checker
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsExact(final T expectedObject, final Collection<K> found,
+    public static <T, K> void containsExact(final T expectedObject, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.containsExact(null, expectedObject, found, equalsChecker);
     }
 
     /**
      * Check that the two collections contains exactly equals elements in the same order.
-     * 
+     *
      * @param expected one collection
      * @param message additional message for the failure description when the check fails
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void sameOrder(final String message, final List<T> expected, final List<T> found) {
+    public static <T> void sameOrder(final String message, final List<? extends T> expected, final List<? extends T> found) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
 
@@ -394,7 +394,7 @@ public abstract class AssertUtil {
 
     /**
      * Check that the two collections contains exactly equals elements in the same order.
-     * 
+     *
      * @param expected one collection
      * @param found the found
      * @param <T> The type of expected and found objects
@@ -405,7 +405,7 @@ public abstract class AssertUtil {
 
     /**
      * Check that the two collections contains exactly equals (by a specific definition) elements in the same order.
-     * 
+     *
      * @param expected one collection
      * @param equalsChecker the equals definition
      * @param message additional message for the failure description when the check fails
@@ -413,7 +413,7 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void sameOrder(final String message, final List<T> expected, final List<K> found,
+    public static <T, K> void sameOrder(final String message, final List<? extends T> expected, final List<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
@@ -443,14 +443,14 @@ public abstract class AssertUtil {
 
     /**
      * Check that the two collections contains exactly equals (by a specific definition) elements in the same order.
-     * 
+     *
      * @param expected one collection
      * @param equalsChecker the equals definition
      * @param found the found
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void sameOrder(final List<T> expected, final List<K> found,
+    public static <T, K> void sameOrder(final List<? extends T> expected, final List<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.sameOrder(null, expected, found, equalsChecker);
     }
@@ -459,7 +459,7 @@ public abstract class AssertUtil {
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
      * {@code found} can have some more elements.
-     * 
+     *
      * @param message additional message for the failure description when the check fails
      * @param expectedObject the expected object
      * @param found the found
@@ -467,7 +467,7 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsAtLeast(final String message, final T expectedObject, final Collection<K> found,
+    public static <T, K> void containsAtLeast(final String message, final T expectedObject, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         Check.notNullArgument(found, "found");
         Check.notNullArgument(equalsChecker, "equalsChecker");
@@ -485,14 +485,14 @@ public abstract class AssertUtil {
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
      * {@code found} can have some more elements.
-     * 
+     *
      * @param expectedObject the expected object
      * @param found the found
      * @param equalsChecker the specific equals definition
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsAtLeast(final T expectedObject, final Collection<K> found,
+    public static <T, K> void containsAtLeast(final T expectedObject, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.containsAtLeast(null, expectedObject, found, equalsChecker);
     }
@@ -501,7 +501,7 @@ public abstract class AssertUtil {
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
      * {@code found} can have some more elements.
-     * 
+     *
      * @param expected one collection
      * @param equalsChecker the specific equals definition
      * @param message additional message for the failure description when the check fails
@@ -509,8 +509,8 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsAtLeast(final String message, final Collection<T> expected,
-            final Collection<K> found, final EqualsChecker<T, K> equalsChecker) {
+    public static <T, K> void containsAtLeast(final String message, final Collection<? extends T> expected,
+            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
         Check.notNullArgument(equalsChecker, "equalsChecker");
@@ -524,14 +524,14 @@ public abstract class AssertUtil {
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
      * {@code found} can have some more elements.
-     * 
+     *
      * @param expected one collection
      * @param equalsChecker the specific equals definition
      * @param found the found
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsAtLeast(final Collection<T> expected, final Collection<K> found,
+    public static <T, K> void containsAtLeast(final Collection<? extends T> expected, final Collection<? extends K> found,
             final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.containsAtLeast(null, expected, found, equalsChecker);
     }
@@ -539,13 +539,13 @@ public abstract class AssertUtil {
     /**
      * Assert that the collection contains the item.
      * The Collection can have other items too.
-     * 
+     *
      * @param expectedItem the expected item
      * @param found the found
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsAtLeast(final String message, final T expectedItem, final Collection<T> found) {
+    public static <T> void containsAtLeast(final String message, final T expectedItem, final Collection<? extends T> found) {
         Check.notNullArgument(found, "found");
 
         if (!found.contains(expectedItem)) {
@@ -556,25 +556,25 @@ public abstract class AssertUtil {
 
     /**
      * Contains.
-     * 
+     *
      * @param expectedItem the expected item
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsAtLeast(final T expectedItem, final Collection<T> found) {
+    public static <T> void containsAtLeast(final T expectedItem, final Collection<? extends T> found) {
         AssertUtil.containsAtLeast(null, expectedItem, found);
     }
 
     /**
      * Assert that the collection contains the expected items.
      * The Collection can have other items too.
-     * 
+     *
      * @param found the found
      * @param expectedItems the expected items
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsAtLeast(final String message, final Collection<T> expectedItems,
+    public static <T> void containsAtLeast(final String message, final Collection<? extends T> expectedItems,
             final Collection<T> found) {
         Check.notNullArgument(expectedItems, "expectedItems");
         Check.notNullArgument(found, "found");
@@ -587,12 +587,12 @@ public abstract class AssertUtil {
     /**
      * Assert that the collection contains the expected items.
      * The Collection can have other items too.
-     * 
+     *
      * @param found the found
      * @param expectedItems the expected items
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsAtLeast(final Collection<T> expectedItems, final Collection<T> found) {
+    public static <T> void containsAtLeast(final Collection<? extends T> expectedItems, final Collection<? extends T> found) {
         Check.notNullArgument(expectedItems, "expectedItems");
         Check.notNullArgument(found, "found");
 
@@ -603,14 +603,14 @@ public abstract class AssertUtil {
      * Assert that the collection contains the expected item.
      * The Collection can have other items too.
      * This method is an alias for {@link #containsAtLeast(String, Object, Collection)}.
-     * 
+     *
      * @param expectedItem the expected item
      * @param found the found
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      * @see AssertUtil#containsAtLeast(String Object, Collection)
      */
-    public static <T> void contains(final String message, final T expectedItem, final Collection<T> found) {
+    public static <T> void contains(final String message, final T expectedItem, final Collection<? extends T> found) {
         containsAtLeast(message, expectedItem, found);
     }
 
@@ -618,13 +618,13 @@ public abstract class AssertUtil {
      * Assert that the collection contains the expected item.
      * The Collection can have other items too.
      * This method is an alias for {@link #containsAtLeast(Object, Collection)}.
-     * 
+     *
      * @param expectedItem the expected item
      * @param found the found
      * @param <T> The type of expected and found objects
      * @see AssertUtil#containsAtLeast(Object, Collection)
      */
-    public static <T> void contains(final T expectedItem, final Collection<T> found) {
+    public static <T> void contains(final T expectedItem, final Collection<? extends T> found) {
         containsAtLeast(expectedItem, found);
     }
 
@@ -632,14 +632,14 @@ public abstract class AssertUtil {
      * Assert that the collection contains the expected items.
      * The Collection can have other items too.
      * This method is an alias for {@link #containsAtLeast(String, Collection, Collection)}.
-     * 
+     *
      * @param found the found
      * @param expectedItems the expected items
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      * @see AssertUtil#containsAtLeast(String, Collection, Collection)
      */
-    public static <T> void contains(final String message, final Collection<T> expectedItems, final Collection<T> found) {
+    public static <T> void contains(final String message, final Collection<? extends T> expectedItems, final Collection<? extends T> found) {
         containsAtLeast(message, expectedItems, found);
     }
 
@@ -647,26 +647,26 @@ public abstract class AssertUtil {
      * Assert that the collection contains the expected items.
      * The Collection can have other items too.
      * This method is an alias for {@link #containsAtLeast(Collection, Collection)}.
-     * 
+     *
      * @param found the found
      * @param expectedItems the expected items
      * @param <T> The type of expected and found objects
      * @see AssertUtil#containsAtLeast(Collection, Collection)
      */
-    public static <T> void contains(final Collection<T> expectedItems, final Collection<T> found) {
+    public static <T> void contains(final Collection<? extends T> expectedItems, final Collection<? extends T> found) {
         containsAtLeast(expectedItems, found);
     }
 
     /**
      * Assert that the collection does not contains the item.
      * The Collection can have other items.
-     * 
+     *
      * @param notExpectedItem the not expected item
      * @param found the found
      * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsNot(final String message, final T notExpectedItem, final Set<T> found) {
+    public static <T> void containsNot(final String message, final T notExpectedItem, final Set<? extends T> found) {
         Check.notNullArgument(found, "found");
 
         if (found.contains(notExpectedItem)) {
@@ -677,19 +677,19 @@ public abstract class AssertUtil {
 
     /**
      * Contains not.
-     * 
+     *
      * @param notExpectedItem the not expected item
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsNot(final T notExpectedItem, final Set<T> found) {
+    public static <T> void containsNot(final T notExpectedItem, final Set<? extends T> found) {
         AssertUtil.containsNot(null, notExpectedItem, found);
     }
 
     /**
      * Fails a test with the given message.
-     * 
-     * @param message failure description 
+     *
+     * @param message failure description
      */
     static public void fail(final String message) {
         throw new AssertionFailedError(message);
@@ -697,7 +697,7 @@ public abstract class AssertUtil {
 
     /**
      * Fail compare.
-     * 
+     *
      * @param message the failure description - can be {@code null}
      * @param expected the expected
      * @param actual the actual
@@ -708,7 +708,7 @@ public abstract class AssertUtil {
 
     /**
      * Fail compare.
-     * 
+     *
      * @param message additional message for the failure description - can be {@code null}
      * @param expected the expected
      * @param actual the actual
@@ -719,7 +719,7 @@ public abstract class AssertUtil {
 
     /**
      * Fail compare.
-     * 
+     *
      * @param message additional message for the failure description - can be {@code null}
      * @param expected the expected
      * @param actual the actual
@@ -730,7 +730,7 @@ public abstract class AssertUtil {
 
     /**
      * Fail compare.
-     * 
+     *
      * @param message additional message for the failure description - can be {@code null}
      * @param expected the expected
      * @param actual the actual
@@ -741,10 +741,10 @@ public abstract class AssertUtil {
 
     /**
      * Format.
-     * 
+     *
      * @param message additional message for the failure description - can be {@code null}
      * @param cause the cause
-     * 
+     *
      * @return the string
      */
     public static String format(final String message, final String cause) {
