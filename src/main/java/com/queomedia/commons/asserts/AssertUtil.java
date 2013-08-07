@@ -575,7 +575,7 @@ public abstract class AssertUtil {
      * @param <T> The type of expected and found objects
      */
     public static <T> void containsAtLeast(final String message, final Collection<? extends T> expectedItems,
-            final Collection<T> found) {
+            final Collection<? extends T> found) {
         Check.notNullArgument(expectedItems, "expectedItems");
         Check.notNullArgument(found, "found");
 
