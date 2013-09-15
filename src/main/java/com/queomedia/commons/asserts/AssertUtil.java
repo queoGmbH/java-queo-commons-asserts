@@ -3,6 +3,7 @@ package com.queomedia.commons.asserts;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.AssertionFailedError;
@@ -159,7 +160,7 @@ public abstract class AssertUtil {
      */
     public static void isEmptyOrNull(final String message, final Collection<?> collection) {
         if (collection != null && collection.size() != 0) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - no elements excected"),
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - no elements expected"),
                     0,
                     collection.size());
         }
@@ -190,7 +191,7 @@ public abstract class AssertUtil {
                     expectedSize,
                     foundCollection.size());
         }
-    }
+    }        
 
     /**
      * Checks for the correct size size.
@@ -200,6 +201,34 @@ public abstract class AssertUtil {
      */
     public static void hasSize(final int size, final Collection<?> collection) {
         AssertUtil.hasSize(null, size, collection);
+    }
+    
+    /**
+     * Checks for the correct size size.
+     *
+     * @param expectedSize the expected size
+     * @param foundMap the mao
+     * @param message additional message for the failure description when the check fails
+     */
+    public static void hasSize(final String message, final int expectedSize, final Map<?,?> foundMap) {
+        Check.notNullArgument(foundMap, "collection");
+
+        if (expectedSize != foundMap.size()) {
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - map has wrong size"),
+                    expectedSize,
+                    foundMap.size());
+        }
+    }
+    
+    /**
+     * Checks for the correct size size.
+     *
+     * @param expectedSize the expected size
+     * @param foundMap the map
+     * @param message additional message for the failure description when the check fails
+     */
+    public static void hasSize(final int expectedSize, final Map<?,?> foundMap) {
+        hasSize(null, expectedSize, foundMap);
     }
 
     /**
