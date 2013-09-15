@@ -2,6 +2,7 @@ package com.queomedia.commons.asserts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import junit.framework.ComparisonFailure;
 
@@ -71,4 +72,17 @@ public class AssertUtilTest {
         AssertUtil.assertReflectivEquals(null, new RefletionObject("a"), new RefletionObject("b"));
     }
     
+    
+    
+    @Test
+    public void testAssertIsEmptyOrNull() {
+        AssertUtil.isEmptyOrNull(null);
+        AssertUtil.isEmptyOrNull(Collections.emptyList()); 
+    }
+
+    
+    @Test(expected = ComparisonFailure.class)
+    public void testAssertIsEmptyOrNullWithFilledList() {        
+        AssertUtil.isEmptyOrNull(Arrays.asList(1)); 
+    }
 }
