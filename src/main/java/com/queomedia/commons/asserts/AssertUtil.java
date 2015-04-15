@@ -289,7 +289,7 @@ public abstract class AssertUtil {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
 
-        containsExact(message, expected, found, NativeEqualsChecker.getInstance());
+        containsExact(message, expected, found, NativeEqualsChecker.<T> getInstance());
     }
 
     /**
