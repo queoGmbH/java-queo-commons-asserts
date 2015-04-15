@@ -1,11 +1,10 @@
 package com.queomedia.commons.asserts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import junit.framework.AssertionFailedError;
@@ -290,74 +289,7 @@ public abstract class AssertUtil {
         Check.notNullArgument(expected, "expected");
         Check.notNullArgument(found, "found");
 
-        AssertUtil.sameSize(message, expected, found);
-
-        Map<? extends T, Integer> expectedBag = buildBag(expected);
-        Map<? extends T, Integer> foundBag = buildBag(found);
-
-        for (Entry<? extends T, Integer> expectedBagItem : expectedBag.entrySet()) {
-            Object expectedItem = expectedBagItem.getKey();
-
-            Integer foundCounterOrNull = foundBag.get(expectedItem);
-            if (foundCounterOrNull == null) {
-                AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection does not contrain "
-                        + expectedItem),
-                        expected,
-                        found);
-            } else {
-                if (!expectedBagItem.getValue().equals(foundCounterOrNull)) {
-                    AssertUtil.failCompare(AssertUtil.format(message,
-                            "[Assertion failed] - collection contains " + foundCounterOrNull + " occurence of element "
-                                    + expectedItem + " but " + expectedBagItem.getValue() + " occurence are expected"),
-                            expected,
-                            found);
-                }
-            }
-        }
-
-        for (T expectedItem : expected) {
-            if (!found.contains(expectedItem)) {
-                AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection + " + found
-                        + " does not contrain " + expectedItem),
-                        expected,
-                        found);
-            }
-        }
-        //        containsExact(message, expected, found, NativeEqualsChecker.getInstance());
-    }
-
-    /**
-     * A Bag is a collection that counts the number of times an object appears in the collection.
-     * 
-     * <p>
-     * This simple Bag created by this method is based on a map, where the key is the object and the value the number of appearance.
-     * <p>
-     * 
-     * Java has no build in Bag and I do not want to add CommonsCollections or Guavana for this small feature.
-     * So
-     *
-     * @param <T> the generic type
-     * @param collection the collection
-     * @return the bag - key = object, value = number of time the object appears in the given collection
-     */
-    private static <T> Map<T, Integer> buildBag(Collection<T> collection) {
-        Check.notNullArgument(collection, "collection");
-
-        Map<T, Integer> bag = new HashMap<T, Integer>();
-
-        for (T object : collection) {
-            final Integer currentCounterOrNull = bag.get(object);
-
-            final int newCounter;
-            if (currentCounterOrNull == null) {
-                newCounter = 1;
-            } else {
-                newCounter = currentCounterOrNull.intValue() + 1;
-            }
-            bag.put(object, newCounter);
-        }
-
-        return bag;
+        containsExact(message, expected, found, NativeEqualsChecker.getInstance());
     }
 
     /**
@@ -412,7 +344,39 @@ public abstract class AssertUtil {
 
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
-     * The order doesn't matter.    
+     * The order doesn't matter.
+     * 
+     * 
+     * <p>
+     * To pass this check, it is required that both collections contains same number appears for each element.
+     * For example:
+     * {@code
+     *    containsExact("message", Arrays.asList(1,1,2), Arrays.asList(1,1,2), NativeEqualsChecker.getInstance())  //pass
+     *    containsExact("message", Arrays.asList(1,1,2), Arrays.asList(1,2,2), NativeEqualsChecker.getInstance())  //fail
+     * }
+     * </p>
+     * 
+     * <p>
+     * Whenever the equals checker is not bijectiv (is not surjective (Rechtseindeutig) and not injective (linkseideutig)),
+     * this mean, one expected element match at least two found elements and one found element is matched by at least
+     * two expected elements.
+     * 
+     * for example:
+     * expected: 10, 20
+     * found:    10, 20
+     * equalsChecker:  expected <= found
+     * 
+     * Then the test will pass, when found has the order (10, 20), but will fail, when found has the oder (20, 10)
+     * This is not intended! - but it is the current behavior. No implementation should been build on this behavior,
+     * because it will be fixed as soon as I have an idea how to fix it.
+     * 
+     * Other scenario:
+     * Matcher {@code (A->1, B->2, AB->1 as well as 2) }
+     * expected: AB, A, B, B
+     * found:     1, 1, 2, 2,  - pass
+     * found:     2, 1, 1, 2,  - fail
+     * </p>
+     * 
      *
      * @param message additional message for the failure description when the check fails
      * @param expected one collection
@@ -428,11 +392,20 @@ public abstract class AssertUtil {
         Check.notNullArgument(equalsChecker, "equalsChecker");
 
         AssertUtil.sameSize(message, expected, found);
+
+        //copy found to an list, to make sure that the order for each serach loop stay the same
+        List<K> foundList = new ArrayList<K>(found);
+        //default element value for an new boolean array is FALSE        
+        boolean[] foundAllreadyMatchedElements = new boolean[found.size()];
+
         for (T expectedObject : expected) {
             boolean objectFound = false;
-            for (K foundObject : found) {
-                if (equalsChecker.equals(expectedObject, foundObject)) {
+
+            final int size = foundList.size();
+            for (int i = 0; i < size; i++) {
+                if (!foundAllreadyMatchedElements[i] && equalsChecker.equals(expectedObject, foundList.get(i))) {
                     objectFound = true;
+                    foundAllreadyMatchedElements[i] = true;
                     break;
                 }
             }
@@ -712,9 +685,7 @@ public abstract class AssertUtil {
         Check.notNullArgument(expectedItems, "expectedItems");
         Check.notNullArgument(found, "found");
 
-        for (T exptetedItem : expectedItems) {
-            AssertUtil.containsAtLeast(message, exptetedItem, found);
-        }
+        containsAtLeast(message, expectedItems, found, NativeEqualsChecker.<T> getInstance());
     }
 
     /**

@@ -9,6 +9,8 @@ import junit.framework.ComparisonFailure;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.queomedia.commons.equals.EqualsChecker;
+
 public class AssertUtilTest {
 
     @Test
@@ -100,6 +102,25 @@ public class AssertUtilTest {
     public void testContainsExact_withDifferntDoubleItemsNull() {
         Object o = new Object();
         AssertUtil.containsExact(Arrays.asList((Object) null, (Object) null, o), Arrays.asList((Object) null, o, o));
+    }
+    
+    @Test
+    public void testContainsExact_equalsCheckerNonBijectionProblem() {        
+        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(10, 20), new LessThanEqualsEqualsChecker());        
+    }
+    
+    /** This is the Probelm: this test should not fail but it does.  - see AssertUtil.containsExact for details. */
+    @Ignore
+    @Test
+    public void testContainsExact_equalsCheckerNonBijectionProblem_otherOrder() {        
+        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(20, 10), new LessThanEqualsEqualsChecker());        
+    }
+    
+    private static final class LessThanEqualsEqualsChecker implements EqualsChecker<Integer, Integer> {
+        @Override
+        public boolean equals(Integer objectT, Integer objectK) {
+            return objectT.intValue() <= objectK.intValue();
+        }
     }
 
     private static class RefletionObject {
