@@ -2,8 +2,10 @@ package com.queomedia.commons.asserts;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import junit.framework.AssertionFailedError;
@@ -13,6 +15,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 
 import com.queomedia.commons.checks.Check;
 import com.queomedia.commons.equals.EqualsChecker;
+import com.queomedia.commons.equals.NativeEqualsChecker;
 
 /**
  * This tool class provides several checks.
@@ -151,7 +154,7 @@ public abstract class AssertUtil {
     public static void isEmpty(final Collection<?> collection) {
         AssertUtil.isEmpty(null, collection);
     }
-        
+
     /**
      * Check that the collection is empty or null.
      *
@@ -165,7 +168,7 @@ public abstract class AssertUtil {
                     collection.size());
         }
     }
-    
+
     /**
      * Check that the collection is empty or null.
      *
@@ -191,7 +194,7 @@ public abstract class AssertUtil {
                     expectedSize,
                     foundCollection.size());
         }
-    }        
+    }
 
     /**
      * Checks for the correct size size.
@@ -202,7 +205,7 @@ public abstract class AssertUtil {
     public static void hasSize(final int size, final Collection<?> collection) {
         AssertUtil.hasSize(null, size, collection);
     }
-    
+
     /**
      * Checks for the correct size size.
      *
@@ -210,7 +213,7 @@ public abstract class AssertUtil {
      * @param foundMap the mao
      * @param message additional message for the failure description when the check fails
      */
-    public static void hasSize(final String message, final int expectedSize, final Map<?,?> foundMap) {
+    public static void hasSize(final String message, final int expectedSize, final Map<?, ?> foundMap) {
         Check.notNullArgument(foundMap, "collection");
 
         if (expectedSize != foundMap.size()) {
@@ -219,7 +222,7 @@ public abstract class AssertUtil {
                     foundMap.size());
         }
     }
-    
+
     /**
      * Checks for the correct size size.
      *
@@ -227,7 +230,7 @@ public abstract class AssertUtil {
      * @param foundMap the map
      * @param message additional message for the failure description when the check fails
      */
-    public static void hasSize(final int expectedSize, final Map<?,?> foundMap) {
+    public static void hasSize(final int expectedSize, final Map<?, ?> foundMap) {
         hasSize(null, expectedSize, foundMap);
     }
 
@@ -267,6 +270,15 @@ public abstract class AssertUtil {
     /**
      * Check that the two collections contains exactly equals elements.
      * The order doesn't matter.
+     * 
+     * <p>
+     * To pass this check, it is required that both collections contains same number appears for each element.
+     * For example:
+     * {@code
+     *    containsExact("message", Arrays.asList(1,1,2), Arrays.asList(1,1,2))  //pass
+     *    containsExact("message", Arrays.asList(1,1,2), Arrays.asList(1,2,2))  //fail
+     * }
+     * </p>
      *
      * @param expected one collection
      * @param found the other collection
@@ -279,6 +291,30 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
 
         AssertUtil.sameSize(message, expected, found);
+
+        Map<? extends T, Integer> expectedBag = buildBag(expected);
+        Map<? extends T, Integer> foundBag = buildBag(found);
+
+        for (Entry<? extends T, Integer> expectedBagItem : expectedBag.entrySet()) {
+            Object expectedItem = expectedBagItem.getKey();
+
+            Integer foundCounterOrNull = foundBag.get(expectedItem);
+            if (foundCounterOrNull == null) {
+                AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection does not contrain "
+                        + expectedItem),
+                        expected,
+                        found);
+            } else {
+                if (!expectedBagItem.getValue().equals(foundCounterOrNull)) {
+                    AssertUtil.failCompare(AssertUtil.format(message,
+                            "[Assertion failed] - collection contains " + foundCounterOrNull + " occurence of element "
+                                    + expectedItem + " but " + expectedBagItem.getValue() + " occurence are expected"),
+                            expected,
+                            found);
+                }
+            }
+        }
+
         for (T expectedItem : expected) {
             if (!found.contains(expectedItem)) {
                 AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection + " + found
@@ -287,14 +323,54 @@ public abstract class AssertUtil {
                         found);
             }
         }
+        //        containsExact(message, expected, found, NativeEqualsChecker.getInstance());
     }
 
     /**
-     * Contains exact.
+     * A Bag is a collection that counts the number of times an object appears in the collection.
+     * 
+     * <p>
+     * This simple Bag created by this method is based on a map, where the key is the object and the value the number of appearance.
+     * <p>
+     * 
+     * Java has no build in Bag and I do not want to add CommonsCollections or Guavana for this small feature.
+     * So
      *
+     * @param <T> the generic type
+     * @param collection the collection
+     * @return the bag - key = object, value = number of time the object appears in the given collection
+     */
+    private static <T> Map<T, Integer> buildBag(Collection<T> collection) {
+        Check.notNullArgument(collection, "collection");
+
+        Map<T, Integer> bag = new HashMap<T, Integer>();
+
+        for (T object : collection) {
+            final Integer currentCounterOrNull = bag.get(object);
+
+            final int newCounter;
+            if (currentCounterOrNull == null) {
+                newCounter = 1;
+            } else {
+                newCounter = currentCounterOrNull.intValue() + 1;
+            }
+            bag.put(object, newCounter);
+        }
+
+        return bag;
+    }
+
+    /**
+     * Check that both collections contains exact equal items.
+     * 
+     * <p>
+     * See {@link #containsExact(String, Collection, Collection)} for details.
+     * </p>
+     *  
      * @param expected the expected
      * @param found the found
      * @param <T> The type of expected and found objects
+     * @see #containsExact(String, Collection, Collection)
      */
     public static <T> void containsExact(final Collection<? extends T> expected, final Collection<? extends T> found) {
         AssertUtil.containsExact(null, expected, found);
@@ -323,11 +399,12 @@ public abstract class AssertUtil {
     }
 
     /**
-     * Contains exact.
+     * Check that the collection contains exactly the one element.
      *
      * @param expectedItem the expected item can be {@code null}
      * @param found the found
      * @param <T> The type of expected and found objects
+     * @see #containsExact(String, Object, Collection, EqualsChecker) 
      */
     public static <T> void containsExact(final T expectedItem, final Collection<? extends T> found) {
         AssertUtil.containsExact(null, expectedItem, found);
@@ -335,7 +412,7 @@ public abstract class AssertUtil {
 
     /**
      * Check that the two collections contains equals (by a specific definition) elements.
-     * The order doesn't matter.
+     * The order doesn't matter.    
      *
      * @param message additional message for the failure description when the check fails
      * @param expected one collection
@@ -352,18 +429,17 @@ public abstract class AssertUtil {
 
         AssertUtil.sameSize(message, expected, found);
         for (T expectedObject : expected) {
-            boolean ok = false;
+            boolean objectFound = false;
             for (K foundObject : found) {
                 if (equalsChecker.equals(expectedObject, foundObject)) {
-                    ok = true;
+                    objectFound = true;
                     break;
                 }
             }
-            if (!ok) {
-                AssertUtil.failCompare(AssertUtil.format(message, "collections does not contain equal elements "
-                        + "first not found element=" + expectedObject),
-                        expected,
-                        found);
+            if (!objectFound) {
+                AssertUtil.failCompare(AssertUtil.format(message,
+                        "[Assertion failed] - collections does not contain equal elements "
+                                + "first not found element=" + expectedObject), expected, found);
             }
         }
     }
