@@ -564,6 +564,30 @@ public abstract class AssertUtil {
      * Check that the elements of expects are element of found too (by a specific definition) elements.
      * The order doesn't matter.
      * {@code found} can have some more elements.
+     * 
+     * This method is only for internal use
+     *
+     * @param expectedObject the expected object
+     * @param found the found
+     * @param equalsChecker the specific equals definition
+     * @param <T> the type of the expected object
+     * @param <K> the type of the found objects
+     */
+    private static <T, K> boolean isContainingAtLeast(final T expectedObject, final Collection<? extends K> found,
+            final EqualsChecker<T, K> equalsChecker) {
+
+        for (K foundObject : found) {
+            if (equalsChecker.equals(expectedObject, foundObject)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check that the elements of expects are element of found too (by a specific definition) elements.
+     * The order doesn't matter.
+     * {@code found} can have some more elements.
      *
      * @param message additional message for the failure description when the check fails
      * @param expectedObject the expected object
@@ -577,13 +601,10 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
         Check.notNullArgument(equalsChecker, "equalsChecker");
 
-        for (K foundObject : found) {
-            if (equalsChecker.equals(expectedObject, foundObject)) {
-                return;
-            }
+        if (!isContainingAtLeast(expectedObject, found, equalsChecker)) {
+            AssertUtil.failCompare(AssertUtil.format(message,
+                    "[Assertion failed] - expected object not found in collection"), expectedObject, found);
         }
-        AssertUtil.failCompare(AssertUtil.format(message,
-                "[Assertion failed] - expected object not found in collection"), expectedObject, found);
     }
 
     /**
@@ -770,14 +791,91 @@ public abstract class AssertUtil {
      * @param notExpectedItem the not expected item
      * @param found the found
      * @param message additional message for the failure description when the check fails
+     * @param equalsChecker the specific equals definition     * 
+     * @param <T> The type of expected and found objects
+     * @param <K> the type of the found objects
+     */
+    public static <T, K> void containsNot(final String message, final T notExpectedItem,
+            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
+        Check.notNullArgument(found, "found");
+
+        if (isContainingAtLeast(notExpectedItem, found, equalsChecker)) {
+            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - colection + " + found
+                    + " does contain the not expected item " + notExpectedItem));
+        }
+    }
+
+    /**
+     * Assert that the collection does not contains the item.
+     * The Collection can have other items.
+     *
+     * @param notExpectedItem the not expected item
+     * @param found the found
+     * @param equalsChecker the specific equals definition     * 
+     * @param <T> The type of expected and found objects
+     * @param <K> the type of the found objects
+     */
+    public static <T, K> void containsNot(final T notExpectedItem, final Collection<? extends K> found,
+            final EqualsChecker<T, K> equalsChecker) {
+        Check.notNullArgument(found, "found");
+
+        containsNot(null, notExpectedItem, found, equalsChecker);
+    }
+
+    /**
+     * Assert that the collection does not contains the item.
+     * The Collection can have other items.
+     *
+     * @param notExpectedItem the not expected item
+     * @param found the found
+     * @param message additional message for the failure description when the check fails
+     * @param equalsChecker the specific equals definition     * 
+     * @param <T> The type of expected and found objects
+     * @param <K> the type of the found objects
+     */
+    public static <T, K> void containsNot(final String message, final Collection<? extends T> notExpectedItems,
+            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
+        Check.notNullArgument(found, "found");
+
+        for (T notExpectedItem : notExpectedItems) {
+            containsNot(message, notExpectedItem, found, equalsChecker);
+        }
+    }
+
+    /**
+     * Assert that the collection does not contains the item.
+     * The Collection can have other items.
+     *
+     * @param notExpectedItem the not expected item
+     * @param found the found
+     * @param message additional message for the failure description when the check fails
+     * @param equalsChecker the specific equals definition     * 
+     * @param <T> The type of expected and found objects
+     * @param <K> the type of the found objects
+     */
+    public static <T, K> void containsNot(final Collection<? extends T> notExpectedItems,
+            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
+        Check.notNullArgument(found, "found");
+
+        containsNot(null, notExpectedItems, found, equalsChecker);
+    }
+
+    /**
+     * Assert that the collection does not contains the item.
+     * The Collection can have other items.
+     *
+     * @param notExpectedItem the not expected item
+     * @param found the found
+     * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsNot(final String message, final T notExpectedItem, final Set<? extends T> found) {
+    public static <T> void containsNot(final String message, final T notExpectedItem,
+            final Collection<? extends T> found) {
         Check.notNullArgument(found, "found");
 
         if (found.contains(notExpectedItem)) {
             AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - colection + " + found
-                    + " does contrain the not expected item " + notExpectedItem));
+                    + " does contain the not expected item " + notExpectedItem));
         }
     }
 
