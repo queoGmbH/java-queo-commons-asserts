@@ -7,8 +7,8 @@
 	<description>Common util library with different asserts and checks.</description>
 
 	<issueManagement>
-		<system>mantis</system>
-		<url>http://mantistest.queo.local</url>
+		<system>JIRA</system>
+		<url>https://jira.queo-group.com/browse/JQCASSERT</url>
 	</issueManagement>
 
 	<scm>
