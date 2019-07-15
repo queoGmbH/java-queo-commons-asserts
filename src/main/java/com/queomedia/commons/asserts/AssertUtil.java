@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.ComparisonFailure;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.ValueWrapper;
 
 import com.queomedia.commons.checks.Check;
 import com.queomedia.commons.equals.EqualsChecker;
@@ -47,8 +46,8 @@ public abstract class AssertUtil {
      */
     public static void secPreciceEquals(final String message, final Date expected, final Date found) {
         if (expected.getTime() / MILLISEC_PER_SECOND != found.getTime() / MILLISEC_PER_SECOND) {
-            AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collection does not contain the expected item"),
+            AssertUtil.failCompare(
+                    AssertUtil.format(message, "[Assertion failed] - collection does not contain the expected item"),
                     expected != null ? expected.toString() : "null",
                     found != null ? found.toString() : "null");
         }
@@ -84,8 +83,8 @@ public abstract class AssertUtil {
         assert (o2 != null);
 
         if (o1.equals(o2)) {
-            AssertUtil.fail(AssertUtil
-                    .format(message, "[Assertion failed] - both objects are equals but should not be"));
+            AssertUtil
+                    .fail(AssertUtil.format(message, "[Assertion failed] - both objects are equals but should not be"));
         }
         return;
     }
@@ -189,10 +188,14 @@ public abstract class AssertUtil {
         Check.notNullArgument(foundCollection, "collection");
 
         if (expectedSize != foundCollection.size()) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection has wrong size, "
-                    + "found collection= " + foundCollection),
-                    expectedSize,
-                    foundCollection.size());
+            AssertUtil
+                    .failCompare(
+                            AssertUtil
+                                    .format(message,
+                                            "[Assertion failed] - collection has wrong size, " + "found collection= "
+                                                    + foundCollection),
+                            expectedSize,
+                            foundCollection.size());
         }
     }
 
@@ -217,8 +220,8 @@ public abstract class AssertUtil {
         Check.notNullArgument(foundMap, "foundMap");
 
         if (expectedSize != foundMap.size()) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - map has wrong size, "
-                    + "found map= " + foundMap),
+            AssertUtil.failCompare(
+                    AssertUtil.format(message, "[Assertion failed] - map has wrong size, " + "found map= " + foundMap),
                     expectedSize,
                     foundMap.size());
         }
@@ -252,7 +255,9 @@ public abstract class AssertUtil {
         if (found.size() != expected.size()) {
             AssertUtil.failCompare(AssertUtil.format(message,
                     "[Assertion failed] - collections does not have the same size - expected collection=" + expected
-                            + " found collection=" + found), expected.size(), found.size());
+                            + " found collection=" + found),
+                    expected.size(),
+                    found.size());
         }
     }
 
@@ -318,7 +323,8 @@ public abstract class AssertUtil {
      * @param found the found
      * @param <T> The type of expected and found objects
      */
-    public static <T> void containsExact(final String message, final T expectedItem, final Collection<? extends T> found) {
+    public static <T> void containsExact(final String message, final T expectedItem,
+            final Collection<? extends T> found) {
         /* expectedItem can be null */
         Check.notNullArgument(found, "found");
 
@@ -412,9 +418,14 @@ public abstract class AssertUtil {
                 }
             }
             if (!objectFound) {
-                AssertUtil.failCompare(AssertUtil.format(message,
-                        "[Assertion failed] - collections does not contain equal elements "
-                                + "first not found element=" + expectedObject), expected, found);
+                AssertUtil
+                        .failCompare(
+                                AssertUtil
+                                        .format(message,
+                                                "[Assertion failed] - collections does not contain equal elements "
+                                                        + "first not found element=" + expectedObject),
+                                expected,
+                                found);
             }
         }
     }
@@ -429,8 +440,8 @@ public abstract class AssertUtil {
      * @param <T> the type of the expected object
      * @param <K> the type of the found objects
      */
-    public static <T, K> void containsExact(final Collection<? extends T> expected,
-            final Collection<? extends K> found, final EqualsChecker<T, K> equalsChecker) {
+    public static <T, K> void containsExact(final Collection<? extends T> expected, final Collection<? extends K> found,
+            final EqualsChecker<T, K> equalsChecker) {
         AssertUtil.containsExact(null, expected, found, equalsChecker);
     }
 
@@ -530,19 +541,20 @@ public abstract class AssertUtil {
         for (int i = 0; i < size; i++) {
             try {
                 if (!equalsChecker.equals(expected.get(i), found.get(i))) {
-                    AssertUtil.failCompare(AssertUtil.format(message,
-                            "[Assertion failed] - the elements have not the same order - "
-                                    + "first difference at index " + i + " - expected element=" + expected.get(i)
-                                    + ", found element=" + found.get(i)), expected, found);
+                    AssertUtil
+                            .failCompare(
+                                    AssertUtil.format(message,
+                                            "[Assertion failed] - the elements have not the same order - "
+                                                    + "first difference at index " + i + " - expected element="
+                                                    + expected.get(i) + ", found element=" + found.get(i)),
+                                    expected,
+                                    found);
                 }
             } catch (RuntimeException e) {
-                throw new IllegalArgumentException("[Exception while assertion check] - the elements have not the same order"
-                        + "(first difference at index "
-                        + i
-                        + " (expected="
-                        + expected.get(i)
-                        + " found="
-                        + found.get(i) + ")) - expected list + " + expected + " found list " + found,
+                throw new IllegalArgumentException(
+                        "[Exception while assertion check] - the elements have not the same order"
+                                + "(first difference at index " + i + " (expected=" + expected.get(i) + " found="
+                                + found.get(i) + ")) - expected list + " + expected + " found list " + found,
                         e);
             }
         }
@@ -802,8 +814,9 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
 
         if (isContainingAtLeast(notExpectedItem, found, equalsChecker)) {
-            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - collection + " + found
-                    + " does contain the not expected item " + notExpectedItem));
+            AssertUtil.fail(AssertUtil.format(message,
+                    "[Assertion failed] - collection + " + found + " does contain the not expected item "
+                            + notExpectedItem));
         }
     }
 
@@ -876,8 +889,9 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
 
         if (found.contains(notExpectedItem)) {
-            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - collection + " + found
-                    + " does contain the not expected item " + notExpectedItem));
+            AssertUtil.fail(AssertUtil.format(message,
+                    "[Assertion failed] - collection + " + found + " does contain the not expected item "
+                            + notExpectedItem));
         }
     }
 
@@ -908,41 +922,16 @@ public abstract class AssertUtil {
      * @param expected the expected
      * @param actual the actual
      */
-    static public void failCompare(final String message, final String expected, final String actual) {
-        throw new ComparisonFailure(message, expected, actual);
-    }
+    static public void failCompare(final String message, final Object expected, final Object actual) {
+        //message can be null
+        //expected can be null
+        //actual can be null
+        
+        final String expectedVsActual = "expected:<" + ValueWrapper.create(expected).getStringRepresentation() + ">"
+                + " but was:<" + ValueWrapper.create(actual).getStringRepresentation() + ">";
 
-    /**
-     * Fail compare.
-     *
-     * @param message additional message for the failure description - can be {@code null}
-     * @param expected the expected
-     * @param actual the actual
-     */
-    static public void failCompare(final String message, final int expected, final int actual) {
-        AssertUtil.failCompare(message, Integer.toString(expected), Integer.toString(actual));
-    }
-
-    /**
-     * Fail compare.
-     *
-     * @param message additional message for the failure description - can be {@code null}
-     * @param expected the expected
-     * @param actual the actual
-     */
-    static public void failCompare(final String message, final Collection<?> expected, final Collection<?> actual) {
-        AssertUtil.failCompare(message, expected.toString(), actual.toString());
-    }
-
-    /**
-     * Fail compare.
-     *
-     * @param message additional message for the failure description - can be {@code null}
-     * @param expected the expected
-     * @param actual the actual
-     */
-    static public void failCompare(final String message, final Object expected, final Collection<?> actual) {
-        AssertUtil.failCompare(message, expected != null ? expected.toString() : null, actual.toString());
+        throw new AssertionFailedError((message != null && message.length() > 0 ? message + " " : "")
+                + expectedVsActual, expected, actual);
     }
 
     /**
