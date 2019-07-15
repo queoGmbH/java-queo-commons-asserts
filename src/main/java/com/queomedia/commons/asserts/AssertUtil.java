@@ -189,7 +189,8 @@ public abstract class AssertUtil {
         Check.notNullArgument(foundCollection, "collection");
 
         if (expectedSize != foundCollection.size()) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection has wrong size"),
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - collection has wrong size, "
+                    + "found collection= " + foundCollection),
                     expectedSize,
                     foundCollection.size());
         }
@@ -213,10 +214,11 @@ public abstract class AssertUtil {
      * @param message additional message for the failure description when the check fails
      */
     public static void hasSize(final String message, final int expectedSize, final Map<?, ?> foundMap) {
-        Check.notNullArgument(foundMap, "collection");
+        Check.notNullArgument(foundMap, "foundMap");
 
         if (expectedSize != foundMap.size()) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - map has wrong size"),
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - map has wrong size, "
+                    + "found map= " + foundMap),
                     expectedSize,
                     foundMap.size());
         }
