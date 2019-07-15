@@ -3,11 +3,13 @@ package com.queomedia.commons.asserts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import junit.framework.ComparisonFailure;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import com.queomedia.commons.equals.EqualsChecker;
 
@@ -18,9 +20,11 @@ public class AssertUtilTest {
         AssertUtil.equalsWithoutWhitespace(" hallo", "hallo ");
     }
 
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testEqualsWithoutWhitespace_notEqual() {
-        AssertUtil.equalsWithoutWhitespace(" haallo", "hallo");
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.equalsWithoutWhitespace(" haallo", "hallo");
+        });
     }
 
     @Test
@@ -28,19 +32,25 @@ public class AssertUtilTest {
         AssertUtil.containsExact(15, Arrays.asList(15));
     }
 
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testContainsExact_empty() {
-        AssertUtil.containsExact(15, new ArrayList<Integer>());
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.containsExact(15, new ArrayList<Integer>());
+        });
     }
 
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testContainsExact_wrongItem() {
-        AssertUtil.containsExact(15, Arrays.asList(14));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.containsExact(15, Arrays.asList(14));
+        });
     }
 
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testContainsExact_tooMutchItems() {
-        AssertUtil.containsExact(15, Arrays.asList(15, 14));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.containsExact(15, Arrays.asList(15, 14));
+        });
     }
 
     /**
@@ -67,9 +77,11 @@ public class AssertUtilTest {
      * expected: 1,1,2
      * found:    1,2,2
      */
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testContainsExact_withDifferntDoubleItems() {
-        AssertUtil.containsExact(Arrays.asList(1, 1, 2), Arrays.asList(1, 2, 2));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.containsExact(Arrays.asList(1, 1, 2), Arrays.asList(1, 2, 2));
+        });
     }
 
     @Test
@@ -81,7 +93,7 @@ public class AssertUtilTest {
     public void testContainsExact_nullElementList() {
         AssertUtil.containsExact(Arrays.asList((Object) null), Arrays.asList((Object) null));
     }
-    
+
     /**
      * given two equal lists 
      * expected: null, null, o
@@ -90,32 +102,36 @@ public class AssertUtilTest {
     @Test
     public void testContainsExact_doubleNullElementList() {
         Object o = new Object();
-        AssertUtil.containsExact(Arrays.asList((Object) null, (Object) null, o), Arrays.asList((Object) null, (Object) null, o));
+        AssertUtil.containsExact(Arrays.asList((Object) null, (Object) null, o),
+                Arrays.asList((Object) null, (Object) null, o));
     }
-    
+
     /**
      * given two different lists 
      * expected: null, null, o
      * found:    null, o, o
      */
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testContainsExact_withDifferntDoubleItemsNull() {
         Object o = new Object();
-        AssertUtil.containsExact(Arrays.asList((Object) null, (Object) null, o), Arrays.asList((Object) null, o, o));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.containsExact(Arrays.asList((Object) null, (Object) null, o),
+                    Arrays.asList((Object) null, o, o));
+        });
     }
-    
+
     @Test
-    public void testContainsExact_equalsCheckerNonBijectionProblem() {        
-        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(10, 20), new LessThanEqualsEqualsChecker());        
+    public void testContainsExact_equalsCheckerNonBijectionProblem() {
+        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(10, 20), new LessThanEqualsEqualsChecker());
     }
-    
+
     /** This is the Probelm: this test should not fail but it does.  - see AssertUtil.containsExact for details. */
-    @Ignore
+    @Disabled
     @Test
-    public void testContainsExact_equalsCheckerNonBijectionProblem_otherOrder() {        
-        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(20, 10), new LessThanEqualsEqualsChecker());        
+    public void testContainsExact_equalsCheckerNonBijectionProblem_otherOrder() {
+        AssertUtil.containsExact(Arrays.asList(10, 20), Arrays.asList(20, 10), new LessThanEqualsEqualsChecker());
     }
-    
+
     private static final class LessThanEqualsEqualsChecker implements EqualsChecker<Integer, Integer> {
         @Override
         public boolean equals(Integer objectT, Integer objectK) {
@@ -143,9 +159,11 @@ public class AssertUtilTest {
     /**
      * Test assert not reflectiv equals.
      */
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testAssertReflectivEqualsWithNotEquals() {
-        AssertUtil.assertReflectivEquals(null, new RefletionObject("a"), new RefletionObject("b"));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.assertReflectivEquals(null, new RefletionObject("a"), new RefletionObject("b"));
+        });
     }
 
     @Test
@@ -154,8 +172,30 @@ public class AssertUtilTest {
         AssertUtil.isEmptyOrNull(Collections.emptyList());
     }
 
-    @Test(expected = ComparisonFailure.class)
+    @Test
     public void testAssertIsEmptyOrNullWithFilledList() {
-        AssertUtil.isEmptyOrNull(Arrays.asList(1));
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.isEmptyOrNull(Arrays.asList(1));
+        });
     }
+
+    @Test
+    public void testHasSize() {
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.hasSize(1, Arrays.asList(1, 2, 3, 4));
+        });
+    }
+
+    @Test
+    public void testMapHasSize() {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+
+        Assertions.assertThrows(AssertionFailedError.class, () -> {
+            AssertUtil.hasSize(1, map);
+        });
+    }
+
 }
