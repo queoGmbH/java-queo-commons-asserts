@@ -48,7 +48,7 @@ public abstract class AssertUtil {
     public static void secPreciceEquals(final String message, final Date expected, final Date found) {
         if (expected.getTime() / MILLISEC_PER_SECOND != found.getTime() / MILLISEC_PER_SECOND) {
             AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collection does not contrain expected item"),
+                    "[Assertion failed] - collection does not contain the expected item"),
                     expected != null ? expected.toString() : "null",
                     found != null ? found.toString() : "null");
         }
@@ -114,7 +114,7 @@ public abstract class AssertUtil {
         String foundNormalized = found.replace(" ", "");
 
         if (!expectedNormalized.equals(foundNormalized)) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - trimed strings are not equal"),
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - trimmed strings are not equal"),
                     expectedNormalized,
                     foundNormalized);
         }
@@ -139,7 +139,7 @@ public abstract class AssertUtil {
     public static void isEmpty(final String message, final Collection<?> collection) {
         Check.notNullArgument(collection, "collection");
         if (collection.size() != 0) {
-            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - no elements excected"),
+            AssertUtil.failCompare(AssertUtil.format(message, "[Assertion failed] - no elements expected"),
                     0,
                     collection.size());
         }
@@ -249,7 +249,7 @@ public abstract class AssertUtil {
 
         if (found.size() != expected.size()) {
             AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collections does not habe the same size - expected collection=" + expected
+                    "[Assertion failed] - collections does not have the same size - expected collection=" + expected
                             + " found collection=" + found), expected.size(), found.size());
         }
     }
@@ -326,7 +326,7 @@ public abstract class AssertUtil {
         }
         if (!found.contains(expectedItem)) {
             AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collection does not contrain expected element"), expectedItem, found);
+                    "[Assertion failed] - collection does not contain expected element"), expectedItem, found);
         }
     }
 
@@ -677,7 +677,7 @@ public abstract class AssertUtil {
 
         if (!found.contains(expectedItem)) {
             AssertUtil.failCompare(AssertUtil.format(message,
-                    "[Assertion failed] - collection does not contrain expected item"), expectedItem, found);
+                    "[Assertion failed] - collection does not contain expected item"), expectedItem, found);
         }
     }
 
@@ -800,7 +800,7 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
 
         if (isContainingAtLeast(notExpectedItem, found, equalsChecker)) {
-            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - colection + " + found
+            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - collection + " + found
                     + " does contain the not expected item " + notExpectedItem));
         }
     }
@@ -874,7 +874,7 @@ public abstract class AssertUtil {
         Check.notNullArgument(found, "found");
 
         if (found.contains(notExpectedItem)) {
-            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - colection + " + found
+            AssertUtil.fail(AssertUtil.format(message, "[Assertion failed] - collection + " + found
                     + " does contain the not expected item " + notExpectedItem));
         }
     }
