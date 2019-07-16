@@ -171,7 +171,6 @@ public abstract class AssertUtil {
      * Check that the collection is empty or null.
      *
      * @param collection the collection
-     * @param message additional message for the failure description when the check fails
      */
     public static void isEmptyOrNull(final Collection<?> collection) {
         AssertUtil.isEmptyOrNull(null, collection);
@@ -232,7 +231,6 @@ public abstract class AssertUtil {
      *
      * @param expectedSize the expected size
      * @param foundMap the map
-     * @param message additional message for the failure description when the check fails
      */
     public static void hasSize(final int expectedSize, final Map<?, ?> foundMap) {
         hasSize(null, expectedSize, foundMap);
@@ -372,7 +370,7 @@ public abstract class AssertUtil {
      * for example:
      * expected: 10, 20
      * found:    10, 20
-     * equalsChecker:  expected <= found
+     * equalsChecker:  expected &lt;= found
      * 
      * Then the test will pass, when found has the order (10, 20), but will fail, when found has the oder (20, 10)
      * This is not intended! - but it is the current behavior. No implementation should been build on this behavior,
@@ -744,11 +742,11 @@ public abstract class AssertUtil {
      * The Collection can have other items too.
      * This method is an alias for {@link #containsAtLeast(String, Object, Collection)}.
      *
+     * @param message additional message for the failure description when the check fails
      * @param expectedItem the expected item
      * @param found the found
-     * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
-     * @see AssertUtil#containsAtLeast(String Object, Collection)
+     * @see AssertUtil#containsAtLeast(String, Object, Collection)
      */
     public static <T> void contains(final String message, final T expectedItem, final Collection<? extends T> found) {
         containsAtLeast(message, expectedItem, found);
@@ -841,10 +839,10 @@ public abstract class AssertUtil {
      * Assert that the collection does not contains the item.
      * The Collection can have other items.
      *
-     * @param notExpectedItem the not expected item
-     * @param found the found
      * @param message additional message for the failure description when the check fails
-     * @param equalsChecker the specific equals definition     * 
+     * @param notExpectedItems the not expected items
+     * @param found the found
+     * @param equalsChecker the specific equals definition 
      * @param <T> The type of expected and found objects
      * @param <K> the type of the found objects
      */
@@ -861,10 +859,9 @@ public abstract class AssertUtil {
      * Assert that the collection does not contains the item.
      * The Collection can have other items.
      *
-     * @param notExpectedItem the not expected item
+     * @param notExpectedItems the not expected items
      * @param found the found
-     * @param message additional message for the failure description when the check fails
-     * @param equalsChecker the specific equals definition     * 
+     * @param equalsChecker the specific equals definition 
      * @param <T> The type of expected and found objects
      * @param <K> the type of the found objects
      */
@@ -879,9 +876,9 @@ public abstract class AssertUtil {
      * Assert that the collection does not contains the item.
      * The Collection can have other items.
      *
+     * @param message additional message for the failure description when the check fails
      * @param notExpectedItem the not expected item
      * @param found the found
-     * @param message additional message for the failure description when the check fails
      * @param <T> The type of expected and found objects
      */
     public static <T> void containsNot(final String message, final T notExpectedItem,
