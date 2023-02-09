@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>com.queomedia</groupId>
 	<artifactId>queo-commons-asserts</artifactId>
-	<name>queo commons asserts</name>
 	<version>2.0.1-SNAPSHOT</version>
+	
+	<name>queo commons asserts</name>
 	<description>Common util library with different asserts and checks.</description>
+
+	<inceptionYear>2009</inceptionYear>
+	
+	<organization>
+		<name>queo GmbH</name>
+		<url>https://www.queo.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<organization>queo GmbH</organization>
+			<name>Ralph Engelmann</name>
+			<email>r.engelmann@queo-group.com</email>
+		</developer>
+	</developers>
+	
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
 
 	<issueManagement>
 		<system>JIRA</system>
@@ -34,13 +60,6 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<developers>
-		<developer>
-			<organization>queo</organization>
-			<name>Ralph Engelmann</name>
-			<email>ralph.engelmann@queo-media.com</email>
-		</developer>
-	</developers>
 
 	<properties>
 		<java.version>1.8</java.version>
