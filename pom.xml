@@ -9,6 +9,7 @@
 	<name>queo commons asserts</name>
 	<description>Common util library with different asserts and checks.</description>
 
+	<url>https://github.com/queoGmbH/java-queo-commons-persistence</url>
 	<inceptionYear>2009</inceptionYear>
 	
 	<organization>
@@ -39,13 +40,9 @@
 	</issueManagement>
 
 	<scm>
-		<!--
-			a typical git urls for a queo project is:
-			https://gitlab.cloud.queo.org/queo.software/java/commons/PROJECT-NAME.git
-		-->
-		<connection>scm:git:https://gitlab.cloud.queo.org/queo.software/java/commons/queo-commons-asserts.git</connection>
-		<developerConnection>scm:git:ssh://git@gitlab.cloud.queo.org:7836/queo.software/java/commons/queo-commons-asserts.git</developerConnection>
-		<url>https://gitlab.cloud.queo.org/queo.software/java/commons/queo-commons-asserts</url>
+		<connection>scm:git:https://github.com/queoGmbH/java-queo-commons-asserts.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/queoGmbH/java-queo-commons-asserts.git</developerConnection>
+		<url>https://github.com/queoGmbH/java-queo-commons-asserts</url>
 		<tag>HEAD</tag>
 	</scm>
 
